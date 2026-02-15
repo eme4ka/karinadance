@@ -1,0 +1,1095 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <meta name="theme-color" content="#0b0f17"/>
+  <title>Схема позицій</title>
+  <style>
+    :root{
+      --bg:#0b0f17;
+      --muted:#95a3b8;
+      --text:#e5e7eb;
+      --border:rgba(148,163,184,.18);
+      --shadow: 0 14px 38px rgba(0,0,0,.35);
+      --r:18px;
+      --pink:#ff2d7a;
+      --pink2:#ff4d91;
+      --grid1: rgba(255,255,255,.05);
+      --grid2: rgba(255,255,255,.08);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", sans-serif;
+      background:
+        radial-gradient(900px 600px at 10% 0%, rgba(255,45,122,.10), transparent 60%),
+        radial-gradient(900px 600px at 100% 20%, rgba(96,165,250,.12), transparent 60%),
+        var(--bg);
+      color:var(--text);
+      padding: clamp(12px, 2vw, 18px);
+      min-height:100vh;
+    }
+
+    header{
+      max-width:1150px;
+      margin: 0 auto 12px auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .brand{display:flex; align-items:center; gap:12px;}
+    .logo{
+      width:40px;height:40px;border-radius:14px;
+      display:grid;place-items:center;
+      background: rgba(255,45,122,.14);
+      border: 1px solid rgba(255,45,122,.35);
+      font-weight:900;
+      color: var(--pink2);
+    }
+    .title{font-weight:900; letter-spacing:.2px}
+    .subtitle{font-size:12px;color:var(--muted); margin-top:2px}
+
+    .wrap{
+      max-width: 1150px;
+      margin: 0 auto;
+      display:grid;
+      grid-template-columns: 360px 1fr;
+      gap: 14px;
+      align-items:start;
+    }
+    @media (max-width: 920px){
+      .wrap{ grid-template-columns: 1fr; }
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .panel{ padding: 14px; }
+    h2{margin:0 0 10px 0; font-size:16px}
+
+    .btn{
+      width:100%;
+      border-radius: 14px;
+      border: 1px solid rgba(148,163,184,.22);
+      background: rgba(16,24,39,.55);
+      color: var(--text);
+      padding: 12px 12px;
+      font-weight: 800;
+      cursor:pointer;
+      user-select:none;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform .08s ease, background .2s ease, border-color .2s ease;
+    }
+    .btn:active{ transform: scale(.99); }
+    .btn.pink{ background: rgba(255,45,122,.14); border-color: rgba(255,45,122,.45); }
+    .btn.good{ background: rgba(34,197,94,.14); border-color: rgba(34,197,94,.45); }
+    .btn.danger{ background: rgba(239,68,68,.14); border-color: rgba(239,68,68,.45); }
+
+    .grid2{ display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:10px; }
+    .grid3{ display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px; margin-top:10px; }
+
+    .control{
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 14px;
+      border: 1px solid rgba(148,163,184,.16);
+      background: rgba(2,6,23,.35);
+    }
+    .row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+      color:var(--muted);
+      font-size:13px;
+      margin-bottom: 6px;
+    }
+    .control input[type="range"]{ width:100%; accent-color: var(--pink); }
+    .control input[type="checkbox"]{ transform: scale(1.1); accent-color: var(--pink); }
+
+    .mini{
+      width:100%;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+    .field{
+      flex:1;
+      min-width: 140px;
+      background: rgba(16,24,39,.55);
+      border: 1px solid rgba(148,163,184,.22);
+      border-radius: 14px;
+      padding: 10px 10px;
+      color: var(--text);
+      font-weight:700;
+      outline:none;
+    }
+    .field::placeholder{ color: rgba(148,163,184,.65); font-weight:600; }
+
+    .list{
+      margin-top: 10px;
+      display:grid;
+      gap:8px;
+      max-height: 220px;
+      overflow:auto;
+      padding-right: 4px;
+    }
+    .item{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding: 10px;
+      border-radius: 14px;
+      border: 1px solid rgba(148,163,184,.16);
+      background: rgba(2,6,23,.30);
+    }
+    .itemLeft{display:flex; align-items:center; gap:10px;}
+    .badge{
+      width:28px;height:28px;border-radius:999px;
+      display:grid;place-items:center;
+      background: rgba(255,45,122,.18);
+      border: 1px solid rgba(255,45,122,.45);
+      color: #fff;
+      font-weight:900;
+      font-size:12px;
+    }
+    .itemName{font-weight:800}
+    .itemSub{font-size:12px;color:var(--muted); margin-top:2px}
+    .iconBtn{
+      border:none;
+      background: transparent;
+      color: rgba(229,231,235,.85);
+      cursor:pointer;
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(148,163,184,.18);
+    }
+    .iconBtn:active{ transform: scale(.99); }
+
+    /* ======= СЦЕНА ======= */
+    .stageWrap{ padding: 14px; }
+    .stage{
+      position: relative;
+      width:100%;
+      aspect-ratio: 4 / 3;
+      border-radius: var(--r);
+      overflow:hidden;
+      touch-action: none;
+      background:
+        linear-gradient(var(--grid1) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid1) 1px, transparent 1px),
+        linear-gradient(var(--grid2) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid2) 1px, transparent 1px),
+        rgba(10,14,24,.92);
+      background-size: 24px 24px, 24px 24px, 120px 120px, 120px 120px, auto;
+      border: 1px solid rgba(148,163,184,.18);
+    }
+    @media (max-width: 920px){
+      .stage{ aspect-ratio: 1 / 1; }
+    }
+
+    .topLabel,.botLabel{
+      position:absolute;
+      left:0; right:0;
+      text-align:center;
+      font-weight:900;
+      letter-spacing:.8px;
+      color: rgba(229,231,235,.35);
+      font-size: 12px;
+      pointer-events:none;
+      text-transform: uppercase;
+    }
+    .topLabel{ top: 14px; }
+    .botLabel{ bottom: 14px; }
+
+    .pinkLineTop,.pinkLineBot{
+      position:absolute; left:0; right:0;
+      height:2px;
+      background: rgba(255,45,122,.55);
+      pointer-events:none;
+    }
+    .pinkLineTop{ top: 44px; }
+    .pinkLineBot{ bottom: 44px; }
+
+    .midTickTop,.midTickBot{
+      position:absolute;
+      left:50%;
+      width:2px;
+      height: 10px;
+      transform: translateX(-50%);
+      background: rgba(255,45,122,.75);
+      pointer-events:none;
+    }
+    .midTickTop{ top: 40px; }
+    .midTickBot{ bottom: 40px; }
+
+    .centerX{
+      position:absolute;
+      left:50%; top:50%;
+      transform: translate(-50%,-50%);
+      width: 18px; height:18px;
+      pointer-events:none;
+      opacity: .65;
+    }
+    .centerX::before,.centerX::after{
+      content:"";
+      position:absolute;
+      left:50%; top:50%;
+      width: 18px; height:2px;
+      background: rgba(255,45,122,.7);
+      transform-origin:center;
+      border-radius: 999px;
+    }
+    .centerX::before{ transform: translate(-50%,-50%) rotate(45deg); }
+    .centerX::after{ transform: translate(-50%,-50%) rotate(-45deg); }
+
+    .marker{
+      position:absolute;
+      transform: translate(-50%,-50%);
+      width: 0; height:0;
+      user-select:none;
+      -webkit-tap-highlight-color: transparent;
+      cursor: grab;
+    }
+    .marker:active{ cursor: grabbing; }
+
+    .dot{
+      width: 22px; height:22px;
+      border-radius: 999px;
+      display:grid; place-items:center;
+      background: rgba(255,45,122,.90);
+      box-shadow: 0 10px 18px rgba(0,0,0,.35);
+      border: 2px solid rgba(255,255,255,.12);
+      font-weight: 900;
+      font-size: 12px;
+      color:#fff;
+      margin: 0 auto;
+    }
+    .name{
+      margin-top: 4px;
+      text-align:center;
+      font-size: 10px;
+      color: rgba(229,231,235,.62);
+      font-weight: 700;
+      white-space: nowrap;
+      text-shadow: 0 2px 10px rgba(0,0,0,.35);
+    }
+    .marker.selected .dot{
+      outline: 3px solid rgba(34,197,94,.85);
+      outline-offset: 3px;
+    }
+
+    .bar{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top: 10px;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .pill{
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,.18);
+      background: rgba(16,24,39,.35);
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .frames{
+      margin-top: 10px;
+      display:flex;
+      gap:10px;
+      overflow:auto;
+      padding-bottom: 4px;
+    }
+    .chip{
+      flex: 0 0 auto;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,.18);
+      background: rgba(16,24,39,.35);
+      color: rgba(229,231,235,.85);
+      font-weight:800;
+      cursor:pointer;
+      white-space:nowrap;
+    }
+    .chip.active{
+      background: rgba(255,45,122,.16);
+      border-color: rgba(255,45,122,.45);
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="logo">X</div>
+    <div>
+      <div class="title">Схема позицій</div>
+      <div class="subtitle">Сітка та маркери</div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="card">
+    <div class="panel">
+      <h2>Маркери</h2>
+
+      <div class="mini">
+        <input id="numInput" class="field" placeholder="Номер (наприклад 7)" inputmode="numeric" />
+        <input id="nameInput" class="field" placeholder="Ім’я (наприклад Маша)" />
+      </div>
+
+      <button id="addBtn" class="btn pink" style="margin-top:10px;">➕ Додати маркер</button>
+
+      <div class="grid2">
+        <button id="delBtn" class="btn danger">🗑️ Видалити вибраний</button>
+        <button id="centerBtn" class="btn">🎯 У центр</button>
+      </div>
+
+      <div class="control">
+        <div class="row">
+          <span>Крок прив’язки</span>
+          <b id="snapVal">24</b>
+        </div>
+        <input id="snapRange" type="range" min="8" max="60" value="24" />
+        <div class="row" style="margin-top:8px;">
+          <span>Прив’язка до сітки</span>
+          <label style="display:flex;align-items:center;gap:8px;">
+            <input id="snapToggle" type="checkbox" checked />
+            <span>Увімкнено</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="control">
+        <div class="row">
+          <span>Розмір точки</span>
+          <b id="dotSizeVal">22</b>
+        </div>
+        <input id="dotSizeRange" type="range" min="16" max="34" value="22" />
+      </div>
+
+      <div class="control">
+        <div class="row">
+          <span>Підпис (ім’я)</span>
+          <label style="display:flex;align-items:center;gap:8px;">
+            <input id="nameToggle" type="checkbox" checked />
+            <span>Показувати</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <button id="exportBtn" class="btn good">⬇️ Експорт PNG</button>
+        <button id="resetBtn" class="btn">🔄 Скинути</button>
+      </div>
+
+      <!-- ====== МУЗИКА ====== -->
+      <div class="control" style="margin-top:10px;">
+        <div class="row" style="margin-bottom:10px;">
+          <span>Музика</span>
+          <b id="musicName">Немає</b>
+        </div>
+
+        <label class="btn" style="display:block;">
+          🎵 Додати файл музики
+          <input id="musicInput" type="file" accept="audio/*" style="display:none;">
+        </label>
+
+        <div class="grid2" style="margin-top:10px;">
+          <button id="musicPlayBtn" class="btn pink">▶️ Відтворити</button>
+          <button id="musicStopBtn" class="btn danger">⏹️ Стоп</button>
+        </div>
+
+        <div class="row" style="margin-top:10px;">
+          <span>Гучність</span>
+          <b id="musicVolVal">80%</b>
+        </div>
+        <input id="musicVol" type="range" min="0" max="100" value="80"/>
+
+        <div class="row" style="margin-top:10px;">
+          <span>Повтор</span>
+          <label style="display:flex;align-items:center;gap:8px;">
+            <input id="musicLoop" type="checkbox" />
+            <span>Увімкнено</span>
+          </label>
+        </div>
+
+        <audio id="musicAudio" preload="metadata"></audio>
+      </div>
+
+      <h2 style="margin-top:14px;">Список</h2>
+      <div id="list" class="list"></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="stageWrap">
+      <div id="stage" class="stage">
+        <div class="topLabel">ГЛЯДАЧІ</div>
+        <div class="botLabel">ЗА КУЛІСАМИ</div>
+        <div class="pinkLineTop"></div>
+        <div class="pinkLineBot"></div>
+        <div class="midTickTop"></div>
+        <div class="midTickBot"></div>
+        <div class="centerX"></div>
+      </div>
+
+      <div class="bar">
+        <div class="pill">Малюнок: <b id="frameTitle">Малюнок 1</b></div>
+        <div class="pill">Маркерів: <b id="count">0</b></div>
+      </div>
+
+      <div class="frames" id="frames"></div>
+
+      <div class="grid3">
+        <button id="newFrameBtn" class="btn">➕ Новий</button>
+        <button id="dupFrameBtn" class="btn">📄 Дублювати</button>
+        <button id="playBtn" class="btn pink">▶️ Відтворити</button>
+      </div>
+
+      <div class="grid2">
+        <button id="renameFrameBtn" class="btn">✏️ Перейменувати</button>
+        <button id="delFrameBtn" class="btn danger">🗑️ Видалити</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+(() => {
+  const stage = document.getElementById('stage');
+  const listEl = document.getElementById('list');
+
+  const numInput = document.getElementById('numInput');
+  const nameInput = document.getElementById('nameInput');
+  const addBtn = document.getElementById('addBtn');
+  const delBtn = document.getElementById('delBtn');
+  const centerBtn = document.getElementById('centerBtn');
+
+  const snapRange = document.getElementById('snapRange');
+  const snapVal = document.getElementById('snapVal');
+  const snapToggle = document.getElementById('snapToggle');
+
+  const dotSizeRange = document.getElementById('dotSizeRange');
+  const dotSizeVal = document.getElementById('dotSizeVal');
+  const nameToggle = document.getElementById('nameToggle');
+
+  const exportBtn = document.getElementById('exportBtn');
+  const resetBtn = document.getElementById('resetBtn');
+
+  const framesEl = document.getElementById('frames');
+  const frameTitleEl = document.getElementById('frameTitle');
+  const countEl = document.getElementById('count');
+
+  const newFrameBtn = document.getElementById('newFrameBtn');
+  const dupFrameBtn = document.getElementById('dupFrameBtn');
+  const playBtn = document.getElementById('playBtn');
+  const renameFrameBtn = document.getElementById('renameFrameBtn');
+  const delFrameBtn = document.getElementById('delFrameBtn');
+
+  // ====== МУЗИКА ======
+  const musicInput = document.getElementById('musicInput');
+  const musicAudio = document.getElementById('musicAudio');
+  const musicName = document.getElementById('musicName');
+  const musicPlayBtn = document.getElementById('musicPlayBtn');
+  const musicStopBtn = document.getElementById('musicStopBtn');
+  const musicVol = document.getElementById('musicVol');
+  const musicVolVal = document.getElementById('musicVolVal');
+  const musicLoop = document.getElementById('musicLoop');
+  let musicUrl = null;
+
+  const STORAGE_KEY = "pos_scheme_v4";
+
+  let snap = +snapRange.value;
+  let snapOn = true;
+  let dotPx = +dotSizeRange.value;
+  let showNames = true;
+
+  let selectedId = null;
+  let isPlaying = false;
+  let playAbort = false;
+
+  let state = load() || makeDefaultState();
+
+  function uid(){ return Math.random().toString(16).slice(2) + Date.now().toString(16); }
+  function makeDefaultState(){
+    const f1 = { id: uid(), title: "Малюнок 1", markers: {}, order: [] };
+    return { activeFrameId: f1.id, frames: [f1] };
+  }
+  function activeFrame(){ return state.frames.find(f => f.id === state.activeFrameId) || state.frames[0]; }
+  function save(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+  function load(){
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(!raw) return null;
+      return JSON.parse(raw);
+    }catch{ return null; }
+  }
+
+  function clamp(v,a,b){ return Math.max(a, Math.min(b, v)); }
+  function stageRect(){ return stage.getBoundingClientRect(); }
+
+  function snapValue(v){
+    if(!snapOn) return v;
+    return Math.round(v / snap) * snap;
+  }
+  function toStageCoords(clientX, clientY){
+    const r = stageRect();
+    const x = (clientX - r.left);
+    const y = (clientY - r.top);
+    return { x: clamp(x, 0, r.width), y: clamp(y, 0, r.height) };
+  }
+
+  function clearStageMarkers(){
+    [...stage.querySelectorAll('.marker')].forEach(el => el.remove());
+  }
+
+  function renderStage(){
+    clearStageMarkers();
+    const f = activeFrame();
+
+    stage.style.backgroundSize =
+      `${snap}px ${snap}px, ${snap}px ${snap}px, ${snap*5}px ${snap*5}px, ${snap*5}px ${snap*5}px, auto`;
+
+    for(const id of f.order){
+      const m = f.markers[id];
+      if(!m) continue;
+
+      const el = document.createElement('div');
+      el.className = 'marker' + (id === selectedId ? ' selected' : '');
+      el.dataset.id = id;
+
+      el.style.left = (m.x * 100) + "%";
+      el.style.top  = (m.y * 100) + "%";
+
+      const dot = document.createElement('div');
+      dot.className = 'dot';
+      dot.textContent = String(m.num ?? "");
+      dot.style.width = dotPx + "px";
+      dot.style.height = dotPx + "px";
+      dot.style.fontSize = (dotPx <= 18 ? 10 : 12) + "px";
+
+      const name = document.createElement('div');
+      name.className = 'name';
+      name.textContent = m.name || "";
+      name.style.display = showNames ? "block" : "none";
+
+      el.appendChild(dot);
+      el.appendChild(name);
+
+      el.addEventListener('pointerdown', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if(isPlaying) return;
+
+        setSelected(id);      // без перерендера сцени
+        startDrag(e, el, id); // drag
+      });
+
+      stage.appendChild(el);
+    }
+
+    renderList();
+    renderFramesBar();
+
+    countEl.textContent = String(f.order.length);
+    frameTitleEl.textContent = f.title;
+
+    snapVal.textContent = String(snap);
+    dotSizeVal.textContent = String(dotPx);
+  }
+
+  function renderList(){
+    const f = activeFrame();
+    listEl.innerHTML = "";
+
+    for(const id of f.order){
+      const m = f.markers[id];
+      if(!m) continue;
+
+      const row = document.createElement('div');
+      row.className = 'item';
+
+      const left = document.createElement('div');
+      left.className = 'itemLeft';
+
+      const badge = document.createElement('div');
+      badge.className = 'badge';
+      badge.textContent = String(m.num ?? "");
+
+      const textWrap = document.createElement('div');
+      const nm = document.createElement('div');
+      nm.className = 'itemName';
+      nm.textContent = m.name || "(без імені)";
+
+      const sub = document.createElement('div');
+      sub.className = 'itemSub';
+      sub.textContent = `X: ${Math.round(m.x*100)}%  •  Y: ${Math.round(m.y*100)}%`;
+
+      textWrap.appendChild(nm);
+      textWrap.appendChild(sub);
+
+      left.appendChild(badge);
+      left.appendChild(textWrap);
+
+      const right = document.createElement('div');
+      right.style.display="flex";
+      right.style.gap="8px";
+
+      const sel = document.createElement('button');
+      sel.className = 'iconBtn';
+      sel.textContent = (id === selectedId) ? "✅" : "Вибрати";
+      sel.addEventListener('click', (ev) => {
+        ev.stopPropagation();
+        setSelected(id);
+      });
+
+      const del = document.createElement('button');
+      del.className = 'iconBtn';
+      del.textContent = "🗑️";
+      del.addEventListener('click', (ev) => {
+        ev.stopPropagation();
+        setSelected(id);
+        deleteSelected();
+      });
+
+      right.appendChild(sel);
+      right.appendChild(del);
+
+      row.appendChild(left);
+      row.appendChild(right);
+
+      row.addEventListener('click', () => setSelected(id));
+      listEl.appendChild(row);
+    }
+  }
+
+  function renderFramesBar(){
+    framesEl.innerHTML = "";
+    for(const f of state.frames){
+      const chip = document.createElement('div');
+      chip.className = 'chip' + (f.id === state.activeFrameId ? ' active' : '');
+      chip.textContent = f.title;
+      chip.addEventListener('click', () => {
+        if(isPlaying) return;
+        state.activeFrameId = f.id;
+        selectedId = null;
+        save();
+        renderStage();
+      });
+      framesEl.appendChild(chip);
+    }
+  }
+
+  function setSelected(id){
+    selectedId = id;
+    save();
+
+    stage.querySelectorAll('.marker').forEach(m => {
+      m.classList.toggle('selected', m.dataset.id === id);
+    });
+
+    renderList();
+  }
+
+  function addMarker(){
+    const f = activeFrame();
+    const num = (numInput.value || "").trim();
+    const name = (nameInput.value || "").trim();
+    if(!num){
+      alert("Вкажи номер маркера (наприклад 7).");
+      return;
+    }
+    const id = uid();
+    f.markers[id] = { id, num, name, x: 0.5, y: 0.52 };
+    f.order.push(id);
+    selectedId = id;
+    save();
+    renderStage();
+    numInput.value = "";
+    nameInput.value = "";
+    numInput.focus();
+  }
+
+  function deleteSelected(){
+    const f = activeFrame();
+    if(!selectedId) return;
+    if(!f.markers[selectedId]) return;
+
+    delete f.markers[selectedId];
+    f.order = f.order.filter(x => x !== selectedId);
+    selectedId = null;
+
+    save();
+    renderStage();
+  }
+
+  function centerSelected(){
+    const f = activeFrame();
+    if(!selectedId) return;
+    const m = f.markers[selectedId];
+    if(!m) return;
+
+    m.x = 0.5;
+    m.y = 0.5;
+    save();
+    renderStage();
+  }
+
+  function startDrag(e, el, id){
+    const f = activeFrame();
+    const m = f.markers[id];
+    if(!m) return;
+
+    const r = stageRect();
+    const start = toStageCoords(e.clientX, e.clientY);
+
+    const startXpx = m.x * r.width;
+    const startYpx = m.y * r.height;
+
+    const pointerId = e.pointerId;
+    try { el.setPointerCapture(pointerId); } catch {}
+
+    const noSnapDuringDrag = e.shiftKey === true;
+    let moved = false;
+
+    function onMove(ev){
+      if(ev.pointerId !== pointerId) return;
+      ev.preventDefault();
+
+      const p = toStageCoords(ev.clientX, ev.clientY);
+      let nx = startXpx + (p.x - start.x);
+      let ny = startYpx + (p.y - start.y);
+
+      const localSnapOn = snapOn && !noSnapDuringDrag;
+      if(localSnapOn){
+        nx = snapValue(nx);
+        ny = snapValue(ny);
+      }
+
+      m.x = clamp(nx / r.width, 0, 1);
+      m.y = clamp(ny / r.width * r.width / r.width, 0, 1); // (залишаємо коректно нижче)
+      m.y = clamp(ny / r.height, 0, 1);
+
+      el.style.left = (m.x * 100) + "%";
+      el.style.top  = (m.y * 100) + "%";
+      moved = true;
+    }
+
+    function onUp(ev){
+      if(ev.pointerId !== pointerId) return;
+      ev.preventDefault();
+
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerup', onUp);
+      window.removeEventListener('pointercancel', onUp);
+
+      save();
+      if(moved) renderStage();
+    }
+
+    window.addEventListener('pointermove', onMove, { passive:false });
+    window.addEventListener('pointerup', onUp, { passive:false });
+    window.addEventListener('pointercancel', onUp, { passive:false });
+  }
+
+  stage.addEventListener('pointerdown', (e) => {
+    if(isPlaying) return;
+    if(!e.target.closest('.marker')){
+      selectedId = null;
+      save();
+      renderStage();
+    }
+  });
+
+  function newFrame(){
+    const title = `Малюнок ${state.frames.length + 1}`;
+    const cur = activeFrame();
+    const f = { id: uid(), title, markers: {}, order: [] };
+
+    for(const id of cur.order){
+      const m = cur.markers[id];
+      const nid = uid();
+      f.markers[nid] = { ...m, id: nid };
+      f.order.push(nid);
+    }
+
+    state.frames.push(f);
+    state.activeFrameId = f.id;
+    selectedId = null;
+    save();
+    renderStage();
+  }
+
+  function duplicateFrame(){
+    const cur = activeFrame();
+    const f = { id: uid(), title: cur.title + " (копія)", markers: {}, order: [] };
+    for(const id of cur.order){
+      const m = cur.markers[id];
+      const nid = uid();
+      f.markers[nid] = { ...m, id: nid };
+      f.order.push(nid);
+    }
+    state.frames.push(f);
+    state.activeFrameId = f.id;
+    selectedId = null;
+    save();
+    renderStage();
+  }
+
+  function renameFrame(){
+    const cur = activeFrame();
+    const t = prompt("Нова назва малюнка:", cur.title);
+    if(!t) return;
+    cur.title = t.trim().slice(0, 40) || cur.title;
+    save();
+    renderStage();
+  }
+
+  function deleteFrame(){
+    if(state.frames.length <= 1){
+      alert("Має бути хоча б 1 малюнок.");
+      return;
+    }
+    const cur = activeFrame();
+    if(!confirm(`Видалити "${cur.title}"?`)) return;
+    state.frames = state.frames.filter(x => x.id !== cur.id);
+    state.activeFrameId = state.frames[0].id;
+    selectedId = null;
+    save();
+    renderStage();
+  }
+
+  async function play(){
+    if(isPlaying) return;
+    isPlaying = true;
+    playAbort = false;
+    playBtn.textContent = "⏸️ Стоп";
+
+    const ids = state.frames.map(f => f.id);
+    const startIdx = Math.max(0, ids.indexOf(state.activeFrameId));
+    const order = ids.slice(startIdx).concat(ids.slice(0,startIdx));
+
+    for(let i=0;i<order.length;i++){
+      if(playAbort) break;
+      state.activeFrameId = order[i];
+      selectedId = null;
+      save();
+      renderStage();
+      await sleep(450);
+    }
+
+    isPlaying = false;
+    playAbort = false;
+    playBtn.textContent = "▶️ Відтворити";
+  }
+  function stopPlay(){ playAbort = true; }
+  function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
+
+  function exportPNG(){
+    const r = stageRect();
+    const w = Math.round(r.width * devicePixelRatio);
+    const h = Math.round(r.height * devicePixelRatio);
+
+    const canvas = document.createElement('canvas');
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext('2d');
+    ctx.scale(devicePixelRatio, devicePixelRatio);
+
+    ctx.fillStyle = "rgba(10,14,24,.92)";
+    ctx.fillRect(0,0,r.width,r.height);
+
+    drawGrid(ctx, r.width, r.height, snap, "rgba(255,255,255,.06)");
+    drawGrid(ctx, r.width, r.height, snap*5, "rgba(255,255,255,.10)");
+
+    ctx.fillStyle = "rgba(255,45,122,.55)";
+    ctx.fillRect(0,44, r.width, 2);
+    ctx.fillRect(0,r.height-46, r.width, 2);
+
+    ctx.fillStyle = "rgba(255,45,122,.75)";
+    ctx.fillRect(r.width/2 - 1, 40, 2, 10);
+    ctx.fillRect(r.width/2 - 1, r.height-50, 2, 10);
+
+    ctx.fillStyle = "rgba(229,231,235,.35)";
+    ctx.font = "900 12px system-ui";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText("ГЛЯДАЧІ", r.width/2, 18);
+    ctx.fillText("ЗА КУЛІСАМИ", r.width/2, r.height-18);
+
+    ctx.save();
+    ctx.translate(r.width/2, r.height/2);
+    ctx.strokeStyle = "rgba(255,45,122,.70)";
+    ctx.lineWidth = 2;
+    ctx.lineCap = "round";
+    ctx.beginPath(); ctx.moveTo(-8,-8); ctx.lineTo(8,8); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(-8,8); ctx.lineTo(8,-8); ctx.stroke();
+    ctx.restore();
+
+    const f = activeFrame();
+    for(const id of f.order){
+      const m = f.markers[id];
+      const x = m.x * r.width;
+      const y = m.y * r.height;
+
+      ctx.save();
+      ctx.shadowColor = "rgba(0,0,0,.35)";
+      ctx.shadowBlur = 18;
+      ctx.shadowOffsetY = 10;
+
+      ctx.beginPath();
+      ctx.arc(x, y, dotPx/2, 0, Math.PI*2);
+      ctx.fillStyle = "rgba(255,45,122,.95)";
+      ctx.fill();
+
+      ctx.shadowBlur = 0;
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = "rgba(255,255,255,.12)";
+      ctx.stroke();
+
+      ctx.fillStyle = "#fff";
+      ctx.font = `900 ${dotPx <= 18 ? 10 : 12}px system-ui`;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(String(m.num ?? ""), x, y+0.5);
+
+      if(showNames){
+        ctx.fillStyle = "rgba(229,231,235,.62)";
+        ctx.font = "700 10px system-ui";
+        ctx.textBaseline = "top";
+        ctx.fillText(m.name || "", x, y + dotPx/2 + 4);
+      }
+      ctx.restore();
+    }
+
+    const a = document.createElement('a');
+    a.download = (activeFrame().title || "malюнok") + ".png";
+    a.href = canvas.toDataURL("image/png");
+    a.click();
+
+    function drawGrid(c, W, H, step, color){
+      c.save();
+      c.strokeStyle = color;
+      c.lineWidth = 1;
+      for(let x=0;x<=W;x+=step){ c.beginPath(); c.moveTo(x,0); c.lineTo(x,H); c.stroke(); }
+      for(let y=0;y<=H;y+=step){ c.beginPath(); c.moveTo(0,y); c.lineTo(W,y); c.stroke(); }
+      c.restore();
+    }
+  }
+
+  function hardReset(){
+    if(!confirm("Скинути все і почати з нуля?")) return;
+    state = makeDefaultState();
+    selectedId = null;
+
+    snap = 24; snapOn = true; dotPx = 22; showNames = true;
+    snapRange.value = 24;
+    snapToggle.checked = true;
+    dotSizeRange.value = 22;
+    nameToggle.checked = true;
+
+    save();
+    renderStage();
+  }
+
+  // ====== МУЗИКА ======
+  function setMusicUI(){
+    const vol = +musicVol.value;
+    musicVolVal.textContent = vol + "%";
+    musicAudio.volume = vol / 100;
+    musicAudio.loop = !!musicLoop.checked;
+  }
+
+  musicInput.addEventListener('change', () => {
+    const file = musicInput.files?.[0];
+    if(!file) return;
+
+    if(musicUrl) URL.revokeObjectURL(musicUrl);
+    musicUrl = URL.createObjectURL(file);
+
+    musicAudio.src = musicUrl;
+    musicName.textContent = file.name.length > 18 ? file.name.slice(0,18) + "…" : file.name;
+
+    setMusicUI();
+    musicPlayBtn.textContent = "▶️ Відтворити";
+  });
+
+  musicPlayBtn.addEventListener('click', async () => {
+    if(!musicAudio.src){
+      alert("Спочатку додай файл музики.");
+      return;
+    }
+    try{
+      if(musicAudio.paused){
+        await musicAudio.play();
+        musicPlayBtn.textContent = "⏸️ Пауза";
+      }else{
+        musicAudio.pause();
+        musicPlayBtn.textContent = "▶️ Відтворити";
+      }
+    }catch{
+      alert("Браузер заблокував відтворення. Спробуй натиснути ще раз.");
+    }
+  });
+
+  musicStopBtn.addEventListener('click', () => {
+    musicAudio.pause();
+    musicAudio.currentTime = 0;
+    musicPlayBtn.textContent = "▶️ Відтворити";
+  });
+
+  musicVol.addEventListener('input', setMusicUI);
+  musicLoop.addEventListener('change', setMusicUI);
+  musicAudio.addEventListener('ended', () => {
+    if(!musicAudio.loop) musicPlayBtn.textContent = "▶️ Відтворити";
+  });
+
+  setMusicUI();
+
+  // ====== UI події ======
+  addBtn.addEventListener('click', addMarker);
+  delBtn.addEventListener('click', deleteSelected);
+  centerBtn.addEventListener('click', centerSelected);
+
+  snapRange.addEventListener('input', () => { snap = +snapRange.value; save(); renderStage(); });
+  snapToggle.addEventListener('change', () => { snapOn = !!snapToggle.checked; save(); renderStage(); });
+  dotSizeRange.addEventListener('input', () => { dotPx = +dotSizeRange.value; save(); renderStage(); });
+  nameToggle.addEventListener('change', () => { showNames = !!nameToggle.checked; save(); renderStage(); });
+
+  exportBtn.addEventListener('click', exportPNG);
+  resetBtn.addEventListener('click', hardReset);
+
+  newFrameBtn.addEventListener('click', () => { if(!isPlaying) newFrame(); });
+  dupFrameBtn.addEventListener('click', () => { if(!isPlaying) duplicateFrame(); });
+  renameFrameBtn.addEventListener('click', () => { if(!isPlaying) renameFrame(); });
+  delFrameBtn.addEventListener('click', () => { if(!isPlaying) deleteFrame(); });
+
+  playBtn.addEventListener('click', () => { if(!isPlaying) play(); else stopPlay(); });
+
+  nameInput.addEventListener('keydown', (e) => { if(e.key === "Enter") addMarker(); });
+  numInput.addEventListener('keydown', (e) => { if(e.key === "Enter") nameInput.focus(); });
+
+  // init
+  if(!state.frames?.length) state = makeDefaultState();
+  if(!state.activeFrameId) state.activeFrameId = state.frames[0].id;
+
+  renderStage();
+})();
+</script>
+</body>
+</html>
