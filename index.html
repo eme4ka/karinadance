@@ -178,6 +178,89 @@
 
     /* ======= СЦЕНА ======= */
     .stageWrap{ padding: 14px; }
+
+    /* ✅ НАПИС ВИЩЕ СІТКИ (зовні stage) */
+    .loveAbove{
+      width:100%;
+      text-align:center;
+      font-weight: 900;
+      letter-spacing: .2px;
+      color: #ffd1e1;
+      margin: 0 0 10px 0;     /* відступ від сітки */
+      text-shadow: 0 2px 12px rgba(0,0,0,.55);
+      font-size: clamp(14px, 2.2vw, 18px);
+      user-select:none;
+    }
+
+    /* Серця біля напису */
+    .heartWrap{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      justify-content:center;
+    }
+    .heart{
+      width:18px;
+      height:18px;
+      position:relative;
+      display:inline-block;
+      transform: rotate(-45deg);
+      background: rgba(255,45,122,.92);
+      border-radius: 4px;
+      box-shadow: 0 6px 18px rgba(255,45,122,.25);
+      animation: beat 1.1s ease-in-out infinite;
+      flex:0 0 auto;
+    }
+    .heart::before,
+    .heart::after{
+      content:"";
+      position:absolute;
+      width:18px;
+      height:18px;
+      background: rgba(255,45,122,.92);
+      border-radius: 999px;
+    }
+    .heart::before{ top:-9px; left:0; }
+    .heart::after{ left:9px; top:0; }
+
+    @keyframes beat{
+      0%   { transform: rotate(-45deg) scale(1); filter: brightness(1); }
+      15%  { transform: rotate(-45deg) scale(1.18); filter: brightness(1.08); }
+      30%  { transform: rotate(-45deg) scale(1.02); }
+      45%  { transform: rotate(-45deg) scale(1.22); filter: brightness(1.10); }
+      60%  { transform: rotate(-45deg) scale(1.03); }
+      100% { transform: rotate(-45deg) scale(1); filter: brightness(1); }
+    }
+
+    /* Іскорки біля напису */
+    .sparkRow{
+      position: relative;
+      display:inline-block;
+      margin-left: 0;
+    }
+    .spark{
+      position:absolute;
+      left:50%;
+      top:50%;
+      width:6px;
+      height:6px;
+      border-radius:999px;
+      background: rgba(255,209,225,.9);
+      transform: translate(-50%,-50%);
+      pointer-events:none;
+      opacity:0;
+      animation: spark 1.1s ease-in-out infinite;
+    }
+    .spark.s1{ animation-delay: .00s; }
+    .spark.s2{ animation-delay: .18s; }
+    .spark.s3{ animation-delay: .36s; }
+    @keyframes spark{
+      0%   { opacity:0; transform: translate(-50%,-50%) scale(.7); }
+      20%  { opacity:.9; transform: translate(-50%,-85%) scale(1); }
+      50%  { opacity:.25; transform: translate(-95%,-120%) scale(.85); }
+      100% { opacity:0; transform: translate(-130%,-150%) scale(.7); }
+    }
+
     .stage{
       position: relative;
       width:100%;
@@ -328,6 +411,10 @@
       background: rgba(255,45,122,.16);
       border-color: rgba(255,45,122,.45);
     }
+
+    @media (prefers-reduced-motion: reduce){
+      .heart, .spark{ animation: none !important; }
+    }
   </style>
 </head>
 <body>
@@ -438,6 +525,21 @@
 
   <section class="card">
     <div class="stageWrap">
+
+      <!-- ✅ ТУТ НАПИС ВИЩЕ СІТКИ -->
+      <div class="loveAbove">
+        <span class="heartWrap">
+          <span class="heart" aria-hidden="true"></span>
+          <span class="sparkRow">
+            Кульбабка, я тебе кохаю!!
+            <span class="spark s1"></span>
+            <span class="spark s2"></span>
+            <span class="spark s3"></span>
+          </span>
+          <span class="heart" aria-hidden="true" style="animation-delay:.12s"></span>
+        </span>
+      </div>
+
       <div id="stage" class="stage">
         <div class="topLabel">ГЛЯДАЧІ</div>
         <div class="botLabel">ЗА КУЛІСАМИ</div>
@@ -782,7 +884,6 @@
       }
 
       m.x = clamp(nx / r.width, 0, 1);
-      m.y = clamp(ny / r.width * r.width / r.width, 0, 1); // (залишаємо коректно нижче)
       m.y = clamp(ny / r.height, 0, 1);
 
       el.style.left = (m.x * 100) + "%";
